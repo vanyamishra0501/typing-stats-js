@@ -1,0 +1,41 @@
+{
+  "name": "typing-stats-js",
+  "version": "1.0.0",
+  "description": "Zero-dependency, framework-agnostic typing metrics engine.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "prepublishOnly": "npm test && npm run build"
+  },
+  "keywords": [
+    "typing",
+    "typing-test",
+    "wpm",
+    "accuracy",
+    "typing-metrics",
+    "typescript"
+  ],
+  "author": "Vanya Mishra",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "typescript": "^5.7.2",
+    "vitest": "^3.2.4"
+  }
+}

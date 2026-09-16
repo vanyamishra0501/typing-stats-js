@@ -1,652 +1,364 @@
-\# typing-stats-js
+# typing-stats-js
 
+A zero-dependency TypeScript library for calculating typing performance from raw keystroke and input data.
 
+## Features
 
-A zero-dependency, framework-agnostic TypeScript/JavaScript library for calculating typing statistics.
+* WPM and Raw WPM calculation
+* Typing accuracy
+* Correct and incorrect character count
+* Backspace count and ratio
+* Error heatmap
+* Typing consistency
+* Typing duration
+* Keystroke history
+* Unicode and Hindi text support
+* TypeScript support
+* Framework independent
+* Works with JavaScript, React and Node.js
+* No browser or DOM dependency
+* Zero runtime dependencies
 
+## Installation
 
-
-It accepts target text and raw typing/keystroke data and returns useful typing metrics such as WPM, accuracy, errors, backspaces, consistency, and an error heatmap.
-
-
-
-\## Features
-
-
-
-\* WPM
-
-\* Raw WPM
-
-\* Accuracy
-
-\* Correct and incorrect character counts
-
-\* Backspace count
-
-\* Backspace ratio
-
-\* Error heatmap
-
-\* Typing consistency
-
-\* Typing duration
-
-\* Complete keystroke log
-
-\* `recordKeystroke()` API
-
-\* `recordInput()` API
-
-\* Unicode and multilingual text support
-
-\* TypeScript types
-
-\* Framework agnostic
-
-\* Browser and Node.js compatible
-
-\* Zero runtime dependencies
-
-
-
-\## Installation
-
-
+Install the package using npm:
 
 ```bash
-
-npm install typing-stats-js
-
+npm install @vanyamishra05/typing-stats-js
 ```
 
-
-
-\## Basic Usage
-
-
+## Basic Usage
 
 ```ts
+import { TypingSession } from "@vanyamishra05/typing-stats-js";
 
-import { TypingSession } from "typing-stats-js";
-
-
-
-const session = new TypingSession("hello world");
-
-
+const session = new TypingSession("hello");
 
 session.recordKeystroke({
-
-&#x20; key: "h",
-
-&#x20; timestamp: 0
-
+  key: "h",
+  timestamp: 0,
+  correct: true
 });
-
-
 
 session.recordKeystroke({
-
-&#x20; key: "e",
-
-&#x20; timestamp: 100
-
+  key: "e",
+  timestamp: 1000,
+  correct: true
 });
-
-
 
 session.recordKeystroke({
-
-&#x20; key: "l",
-
-&#x20; timestamp: 200
-
+  key: "l",
+  timestamp: 2000,
+  correct: true
 });
-
-
 
 session.recordKeystroke({
-
-&#x20; key: "l",
-
-&#x20; timestamp: 300
-
+  key: "l",
+  timestamp: 3000,
+  correct: true
 });
-
-
 
 session.recordKeystroke({
-
-&#x20; key: "o",
-
-&#x20; timestamp: 400
-
+  key: "o",
+  timestamp: 4000,
+  correct: true
 });
-
-
 
 const results = session.getResults();
 
-
-
 console.log(results);
-
 ```
 
+Example output:
 
-
-\## Example Result
-
-
-
-A result object contains:
-
-
-
-```ts
-
+```js
 {
-
-&#x20; wpm: 150,
-
-&#x20; rawWpm: 150,
-
-&#x20; accuracy: 100,
-
-&#x20; totalChars: 5,
-
-&#x20; correctChars: 5,
-
-&#x20; incorrectChars: 0,
-
-&#x20; backspaceCount: 0,
-
-&#x20; backspaceRatio: 0,
-
-&#x20; errorHeatmap: {},
-
-&#x20; consistency: 100,
-
-&#x20; durationMs: 400,
-
-&#x20; keystrokeLog: \[
-
-&#x20;   {
-
-&#x20;     key: "h",
-
-&#x20;     timestamp: 0,
-
-&#x20;     correct: true
-
-&#x20;   }
-
-&#x20; ]
-
+  wpm: 15,
+  rawWpm: 15,
+  accuracy: 100,
+  totalChars: 5,
+  correctChars: 5,
+  incorrectChars: 0,
+  backspaceCount: 0,
+  backspaceRatio: 0,
+  errorHeatmap: {},
+  consistency: 100,
+  durationMs: 4000,
+  keystrokeLog: [
+    { key: "h", timestamp: 0, correct: true },
+    { key: "e", timestamp: 1000, correct: true },
+    { key: "l", timestamp: 2000, correct: true },
+    { key: "l", timestamp: 3000, correct: true },
+    { key: "o", timestamp: 4000, correct: true }
+  ]
 }
-
 ```
 
+## API
 
+### TypingSession
 
-The exact values depend on the supplied timestamps and keystrokes.
-
-
-
-\## `recordKeystroke()`
-
-
-
-Record individual keystrokes:
-
-
+`TypingSession` is the main class used to record typing activity and calculate the results.
 
 ```ts
-
-session.recordKeystroke({
-
-&#x20; key: "h",
-
-&#x20; timestamp: 1000
-
-});
-
-```
-
-
-
-The `correct` property can be supplied explicitly:
-
-
-
-```ts
-
-session.recordKeystroke({
-
-&#x20; key: "x",
-
-&#x20; timestamp: 1100,
-
-&#x20; correct: false
-
-});
-
-```
-
-
-
-If `correct` is omitted, the session compares the typed character with the expected character from the target text.
-
-
-
-\### Backspace
-
-
-
-Backspaces are recorded using:
-
-
-
-```ts
-
-session.recordKeystroke({
-
-&#x20; key: "Backspace",
-
-&#x20; timestamp: 1200
-
-});
-
-```
-
-
-
-Every backspace press is counted separately.
-
-
-
-\## `recordInput()`
-
-
-
-Applications that receive the current input value can use:
-
-
-
-```ts
-
-session.recordInput("hello", 1000);
-
-```
-
-
-
-For example:
-
-
-
-```ts
-
 const session = new TypingSession("hello world");
-
-
-
-session.recordInput("hello", 1000);
-
-session.recordInput("hello ", 2000);
-
-session.recordInput("hello world", 3000);
-
-
-
-console.log(session.getResults());
-
 ```
 
+### recordKeystroke()
 
+Records an individual keystroke.
 
-\## Metrics
+```ts
+session.recordKeystroke({
+  key: "h",
+  timestamp: 0,
+  correct: true
+});
+```
 
+The `correct` property is optional. If it is not provided, the library compares the typed character with the expected character from the target text.
 
+### recordInput()
 
-\### WPM
+Records changes to an input value.
 
+```ts
+session.recordInput("h", 0);
+session.recordInput("he", 1000);
+session.recordInput("hel", 2000);
+session.recordInput("hell", 3000);
+session.recordInput("hello", 4000);
+```
 
+The library detects added characters and Backspace operations between input values.
 
-Words per minute is calculated using the standard five-character word convention:
+### getResults()
 
+Returns the calculated typing statistics.
 
+```ts
+const results = session.getResults();
+
+console.log(results.wpm);
+console.log(results.accuracy);
+```
+
+### reset()
+
+Clears the current typing session.
+
+```ts
+session.reset();
+```
+
+## Metrics
+
+### WPM
+
+WPM means Words Per Minute.
+
+The calculation is:
 
 ```text
-
 WPM = (correct characters / 5) / duration in minutes
-
 ```
 
+### Raw WPM
 
-
-\### Raw WPM
-
-
-
-Raw WPM uses all typed characters:
-
-
+Raw WPM uses the total number of typed characters, including incorrect characters.
 
 ```text
-
 Raw WPM = (total typed characters / 5) / duration in minutes
-
 ```
 
+### Accuracy
 
-
-\### Accuracy
-
-
+Accuracy is calculated using:
 
 ```text
-
-Accuracy = correct characters / total characters × 100
-
+Accuracy = (correct characters / total characters) × 100
 ```
 
+Incorrect characters are counted as errors even if they are later corrected with Backspace.
 
+### Correct Characters
 
-Incorrect characters that are later corrected using Backspace are still counted as errors.
+`correctChars` is the number of correctly typed characters.
 
+### Incorrect Characters
 
+`incorrectChars` is the number of incorrectly typed characters.
 
-\### Error Heatmap
+### Total Characters
 
+`totalChars` is the total number of typed characters, excluding Backspace presses.
 
+### Backspace Count
 
-The error heatmap records how frequently individual characters were mistyped.
+`backspaceCount` records every Backspace press.
 
+```ts
+session.recordKeystroke({
+  key: "Backspace",
+  timestamp: 2000
+});
+```
 
+Repeated Backspace presses are counted separately.
+
+### Backspace Ratio
+
+The Backspace ratio is:
+
+```text
+Backspace ratio = Backspace count / Total keystrokes
+```
+
+### Error Heatmap
+
+`errorHeatmap` records incorrectly typed characters and their frequency.
 
 Example:
 
-
-
-```ts
-
+```js
 {
-
-&#x20; x: 3,
-
-&#x20; a: 2
-
+  "a": 2,
+  "s": 1,
+  "x": 3
 }
-
 ```
 
+This means:
 
+* `a` was typed incorrectly 2 times
+* `s` was typed incorrectly 1 time
+* `x` was typed incorrectly 3 times
 
-This means `x` was mistyped three times and `a` was mistyped twice.
+Backspace is not included in the error heatmap.
 
+### Consistency
 
+Consistency measures how stable the typing speed is during the session.
 
-\### Backspace Ratio
+The calculation uses 5-second typing windows and compares the WPM values of those windows.
 
+The result is between `0` and `100`.
 
+### Duration
 
-```text
+`durationMs` represents the time between the first and last recorded keystroke.
 
-Backspace ratio = backspace count / total keystrokes
+Example:
 
+```js
+durationMs: 4000
 ```
 
+### Keystroke Log
 
+`keystrokeLog` contains the recorded typing history.
 
-\### Consistency
+Example:
 
+```js
+[
+  {
+    key: "h",
+    timestamp: 0,
+    correct: true
+  },
+  {
+    key: "e",
+    timestamp: 1000,
+    correct: true
+  }
+]
+```
 
+## Unicode and Hindi Support
 
-Typing consistency is calculated using five-second windows. WPM is calculated for each window and the variation between those windows is used to produce a consistency score.
+The library supports Unicode text, including Hindi.
 
-
-
-\## Unicode Support
-
-
-
-The library supports Unicode and multilingual text.
-
-
-
-For example:
-
-
+Example:
 
 ```ts
+import { TypingSession } from "@vanyamishra05/typing-stats-js";
 
-const session = new TypingSession("नमस्ते दुनिया");
+const session = new TypingSession("नमस्ते");
 
-
-
-session.recordInput(
-
-&#x20; "नमस्ते दुनिया",
-
-&#x20; 1000
-
-);
-
-
+session.recordInput("नमस्ते", 5000);
 
 console.log(session.getResults());
-
 ```
 
+## TypeScript
 
+The package is written in TypeScript and includes type declarations.
 
-\## Resetting a Session
-
-
-
-Reset the current session:
-
-
+Types can be imported using:
 
 ```ts
-
-session.reset();
-
-```
-
-
-
-After resetting, the session contains no recorded keystrokes.
-
-
-
-\## TypeScript
-
-
-
-Types are exported:
-
-
-
-```ts
-
 import type {
-
-&#x20; Keystroke,
-
-&#x20; TypingResult
-
-} from "typing-stats-js";
-
+  Keystroke,
+  TypingResult
+} from "@vanyamishra05/typing-stats-js";
 ```
 
+Example:
 
+```ts
+const keystroke: Keystroke = {
+  key: "a",
+  timestamp: 1000,
+  correct: true
+};
+```
 
-\## Framework Agnostic
+## Framework Independent
 
-
-
-The core library does not require React, Vue, Angular, or another framework.
-
-
+The core library does not depend on a specific frontend framework.
 
 It can be used with:
 
-
-
-\* Plain JavaScript
-
-\* TypeScript
-
-\* React
-
-\* Vue
-
-\* Angular
-
-\* Node.js
-
-\* Browser applications
-
-
-
-The core package does not use DOM or browser-specific APIs.
-
-
-
-\## Development
-
-
-
-Install dependencies:
-
-
-
-```bash
-
-npm install
-
-```
-
-
-
-Run tests:
-
-
-
-```bash
-
-npm test
-
-```
-
-
-
-Run tests with coverage:
-
-
-
-```bash
-
-npm run coverage
-
-```
-
-
-
-Build the package:
-
-
-
-```bash
-
-npm run build
-
-```
-
-
-
-\## Test Results
-
-
-
-The project includes unit tests covering:
-
-
-
-\* WPM
-
-\* Raw WPM
-
-\* Accuracy
-
-\* Error heatmap
-
-\* Consistency
-
-\* Correct typing
-
-\* Incorrect typing
-
-\* Backspaces
-
-\* Corrected errors
-
-\* Unicode/Hindi text
-
-\* Reset functionality
-
-\* Invalid timestamps
-
-
-
-Current test suite:
-
-
+* JavaScript
+* TypeScript
+* React
+* Node.js
+* Other JavaScript frameworks
+
+The application collects keyboard or input data and passes it to the library.
+
+## Project Structure
 
 ```text
-
-5 test files passed
-
-21 tests passed
-
+typing-stats-js/
+│
+├── src/
+│   ├── metrics/
+│   │   ├── accuracy.ts
+│   │   ├── consistency.ts
+│   │   ├── errorHeatmap.ts
+│   │   └── wpm.ts
+│   │
+│   ├── TypingSession.ts
+│   ├── types.ts
+│   └── index.ts
+│
+├── test/
+│   ├── TypingSession.test.ts
+│   ├── accuracy.test.ts
+│   ├── consistency.test.ts
+│   ├── errorHeatmap.test.ts
+│   └── wpm.test.ts
+│
+├── EXAMPLES.md
+├── README.md
+├── package.json
+├── package-lock.json
+├── tsconfig.json
+└── vitest.config.ts
 ```
 
+## Testing
 
-
-Coverage:
-
-
-
-```text
-
-Overall lines:       94.69%
-
-Overall statements:  94.69%
-
-Overall branches:    94.20%
-
-Overall functions:  100.00%
-
-
-
-Metrics lines:       98.01%
-
-Metrics branches:    97.22%
-
-Metrics functions:  100.00%
-
-```
-
-
-
-\## License
-
-
-
-MIT
-
-
-
+The proj

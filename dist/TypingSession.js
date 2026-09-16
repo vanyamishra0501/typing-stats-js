@@ -1,7 +1,7 @@
-import { calculateAccuracy } from "./metrics/accuracy";
-import { calculateConsistency } from "./metrics/consistency";
-import { buildErrorHeatmap } from "./metrics/errorHeatmap";
-import { calculateRawWpm, calculateWpm } from "./metrics/wpm";
+import { calculateAccuracy } from "./metrics/accuracy.js";
+import { calculateConsistency } from "./metrics/consistency.js";
+import { buildErrorHeatmap } from "./metrics/errorHeatmap.js";
+import { calculateRawWpm, calculateWpm } from "./metrics/wpm.js";
 const segment = (value) => Array.from(value);
 const isBackspace = (key) => key === "Backspace" || key === "\b";
 export class TypingSession {

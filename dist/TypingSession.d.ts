@@ -1,4 +1,4 @@
-import type { Keystroke, TypingResult } from "./types";
+import type { Keystroke, TypingResult } from "./types.js";
 export declare class TypingSession {
     private readonly target;
     private readonly log;

@@ -1,1 +1,1 @@
-export { TypingSession } from "./TypingSession";
+export { TypingSession } from "./TypingSession.js";

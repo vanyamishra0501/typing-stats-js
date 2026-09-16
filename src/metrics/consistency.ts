@@ -1,4 +1,4 @@
-import { calculateWpm } from "./wpm";
+import { calculateWpm } from "./wpm.js";
 
 export function calculateConsistency(
   entries: Array<{

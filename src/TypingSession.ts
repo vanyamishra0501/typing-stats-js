@@ -1,24 +1,24 @@
 import type {
   Keystroke,
   TypingResult
-} from "./types";
+} from "./types.js";
 
 import {
   calculateAccuracy
-} from "./metrics/accuracy";
+} from "./metrics/accuracy.js";
 
 import {
   calculateConsistency
-} from "./metrics/consistency";
+} from "./metrics/consistency.js";
 
 import {
   buildErrorHeatmap
-} from "./metrics/errorHeatmap";
+} from "./metrics/errorHeatmap.js";
 
 import {
   calculateRawWpm,
   calculateWpm
-} from "./metrics/wpm";
+} from "./metrics/wpm.js";
 
 const segment = (value: string): string[] =>
   Array.from(value);

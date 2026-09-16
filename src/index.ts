@@ -1,6 +1,6 @@
-export { TypingSession } from "./TypingSession";
+export { TypingSession } from "./TypingSession.js";
 
 export type {
   Keystroke,
   TypingResult
-} from "./types";
+} from "./types.js";

@@ -1,6 +1,6 @@
 {
   "name": "@vanyamishra05/typing-stats-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Zero-dependency, framework-agnostic typing metrics engine.",
   "type": "module",
   "main": "./dist/index.js",
